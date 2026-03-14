@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # RevConnect - Social Media Platform
 
 A full-stack social media web application built with Spring Boot, Angular, and MySQL that enables personal users, businesses, and content creators to connect, share content, and build their professional network.
@@ -265,6 +266,9 @@ Developed as part of P2 - RevConnect Project
 For more detailed information:
 - [Backend Documentation](src/main/java/com/revconnect/revconnect/README.md)
 - [Frontend Documentation](revconnect-frontend/README.md)
+=======
+# RevConnect-P2
+>>>>>>> b038abb31b68371749bfe8c49272a569978f348a
 =======
 # RevConnect-P2
 >>>>>>> b038abb31b68371749bfe8c49272a569978f348a
