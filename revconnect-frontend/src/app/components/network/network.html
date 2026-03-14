@@ -1,0 +1,144 @@
+<div class="network-container">
+  <h2 class="page-title">Network</h2>
+  
+  <div class="tabs">
+    <button (click)="activeTab = 'find'" [class.active]="activeTab === 'find'" class="tab-btn">
+      Find People
+    </button>
+    <button (click)="activeTab = 'connections'" [class.active]="activeTab === 'connections'" class="tab-btn">
+      Connections
+    </button>
+    <button (click)="activeTab = 'pending'" [class.active]="activeTab === 'pending'" class="tab-btn">
+      Pending Requests
+    </button>
+    <button (click)="activeTab = 'followers'" [class.active]="activeTab === 'followers'" class="tab-btn">
+      Followers
+    </button>
+    <button (click)="activeTab = 'following'" [class.active]="activeTab === 'following'" class="tab-btn">
+      Following
+    </button>
+  </div>
+  
+  <div *ngIf="activeTab === 'find'" class="tab-content">
+    <h4>Find People</h4>
+    <div class="search-box">
+      <input type="text" class="form-control" [(ngModel)]="searchKeyword" (keyup.enter)="searchUsers()" placeholder="Search by name or username...">
+      <button (click)="searchUsers()" class="btn btn-primary">Search</button>
+    </div>
+    <div *ngIf="searchResults.length === 0 && searchKeyword" class="empty-state">
+      <p>No users found.</p>
+    </div>
+    <div class="user-list">
+      <div *ngFor="let user of searchResults" class="user-card">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="user-info">
+          <h5>{{user.username}}</h5>
+          <p>{{user.email}}</p>
+        </div>
+        <div class="action-buttons">
+          <button 
+            *ngIf="user.connectionStatus === 'none'" 
+            (click)="sendConnectionRequest(user.id)" 
+            class="btn btn-sm btn-primary">
+            Connect
+          </button>
+          <button 
+            *ngIf="user.connectionStatus === 'pending'" 
+            class="btn btn-sm btn-secondary" 
+            disabled>
+            Pending
+          </button>
+          <button 
+            *ngIf="user.connectionStatus === 'connected'" 
+            class="btn btn-sm btn-success" 
+            disabled>
+            Connected
+          </button>
+          
+          <button 
+            *ngIf="user.followStatus === 'none'" 
+            (click)="followUser(user.id)" 
+            class="btn btn-sm btn-success">
+            Follow
+          </button>
+          <button 
+            *ngIf="user.followStatus === 'following'" 
+            (click)="unfollowFromSearch(user.id)" 
+            class="btn btn-sm btn-outline-secondary">
+            Following
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="activeTab === 'connections'" class="tab-content">
+    <h4>My Connections</h4>
+    <div *ngIf="connections.length === 0" class="empty-state">
+      <p>No connections yet.</p>
+    </div>
+    <div class="user-list">
+      <div *ngFor="let conn of connections" class="user-card" [routerLink]="['/dashboard/user', getOtherUser(conn)?.id]" style="cursor: pointer;">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="user-info">
+          <h5>{{getOtherUser(conn)?.username}}</h5>
+          <p>{{getOtherUser(conn)?.email}}</p>
+        </div>
+        <button (click)="removeConnection(conn.id); $event.stopPropagation()" class="btn btn-sm btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="activeTab === 'pending'" class="tab-content">
+    <h4>Pending Connection Requests</h4>
+    <div *ngIf="pendingRequests.length === 0" class="empty-state">
+      <p>No pending requests.</p>
+    </div>
+    <div class="user-list">
+      <div *ngFor="let req of pendingRequests" class="user-card">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="user-info">
+          <h5>{{req.sender?.username}}</h5>
+          <p>{{req.sender?.email}}</p>
+        </div>
+        <div class="action-buttons">
+          <button (click)="acceptRequest(req.id)" class="btn btn-sm btn-success">Accept</button>
+          <button (click)="rejectRequest(req.id)" class="btn btn-sm btn-danger">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="activeTab === 'followers'" class="tab-content">
+    <h4>Followers</h4>
+    <div *ngIf="followers.length === 0" class="empty-state">
+      <p>No followers yet.</p>
+    </div>
+    <div class="user-list">
+      <div *ngFor="let follower of followers" class="user-card" [routerLink]="['/dashboard/user', follower.follower?.id]" style="cursor: pointer;">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="user-info">
+          <h5>{{follower.follower?.username}}</h5>
+          <p>{{follower.follower?.email}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="activeTab === 'following'" class="tab-content">
+    <h4>Following</h4>
+    <div *ngIf="following.length === 0" class="empty-state">
+      <p>Not following anyone yet.</p>
+    </div>
+    <div class="user-list">
+      <div *ngFor="let follow of following" class="user-card" [routerLink]="['/dashboard/user', follow.following?.id]" style="cursor: pointer;">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="user-info">
+          <h5>{{follow.following?.username}}</h5>
+          <p>{{follow.following?.email}}</p>
+        </div>
+        <button (click)="unfollowUser(follow.following?.id); $event.stopPropagation()" class="btn btn-sm btn-danger">Unfollow</button>
+      </div>
+    </div>
+  </div>
+</div>

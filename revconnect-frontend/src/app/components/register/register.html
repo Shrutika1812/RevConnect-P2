@@ -1,0 +1,48 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="text-center mb-4">
+      <h1 class="brand-title">RevConnect</h1>
+      <p class="brand-subtitle">Join the professional network</p>
+    </div>
+    
+    <form (ngSubmit)="onRegister()">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" [(ngModel)]="registerData.username" name="username" required>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" [(ngModel)]="registerData.email" name="email" required>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <div class="password-input-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="registerData.password" name="password" required>
+          <span class="password-toggle-text" (click)="togglePasswordVisibility()">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Account Type</label>
+        <select class="form-control" [(ngModel)]="registerData.accountType" name="accountType" required>
+          <option value="PERSONAL">Personal</option>
+          <option value="BUSINESS">Business</option>
+          <option value="CREATOR">Creator</option>
+        </select>
+      </div>
+      
+      <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+      <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+      
+      <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
+      
+      <div class="text-center">
+        <p>Already have an account? <a [routerLink]="['/login']" class="text-primary">Login here</a></p>
+      </div>
+    </form>
+  </div>
+</div>

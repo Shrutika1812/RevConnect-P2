@@ -1,0 +1,47 @@
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="brand-section">
+      <h2 class="brand-title">RevConnect</h2>
+      <p class="brand-subtitle">Connect. Share. Grow.</p>
+    </div>
+    
+    <nav class="nav-menu">
+      <a [routerLink]="['/dashboard/profile']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-user"></i> Profile
+      </a>
+      <a [routerLink]="['/dashboard/create-post']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-plus"></i> Create Post
+      </a>
+      <a [routerLink]="['/dashboard/my-posts']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-folder"></i> My Posts
+      </a>
+      <a *ngIf="isBusinessOrCreator" [routerLink]="['/dashboard/scheduled-posts']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-calendar-alt"></i> Scheduled Posts
+      </a>
+      <a [routerLink]="['/dashboard']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-home"></i> Feed
+      </a>
+      <a [routerLink]="['/dashboard/network']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-users"></i> Network
+      </a>
+      <a *ngIf="isBusinessOrCreator" [routerLink]="['/dashboard/analytics']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-chart-bar"></i> Analytics
+      </a>
+      <a [routerLink]="['/dashboard/notifications']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-bell"></i> Notifications
+        <span *ngIf="unreadCount > 0" class="badge">{{unreadCount}}</span>
+      </a>
+      <a [routerLink]="['/dashboard/settings']" routerLinkActive="active" class="nav-item">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+    </nav>
+    
+    <div class="logout-section">
+      <button (click)="logout()" class="nav-item logout-btn">Logout</button>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

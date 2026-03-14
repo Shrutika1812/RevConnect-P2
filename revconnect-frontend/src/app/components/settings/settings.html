@@ -1,0 +1,131 @@
+<div class="settings-container">
+  <h2 class="page-title">Account Settings</h2>
+  
+  <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+  
+  <div class="settings-tabs">
+    <button (click)="changeTab('security')" [class.active]="activeTab === 'security'" class="tab-btn">
+      <i class="fas fa-lock"></i> Security
+    </button>
+    <button (click)="changeTab('privacy')" [class.active]="activeTab === 'privacy'" class="tab-btn">
+      <i class="fas fa-shield-alt"></i> Privacy
+    </button>
+    <button (click)="changeTab('notifications')" [class.active]="activeTab === 'notifications'" class="tab-btn">
+      <i class="fas fa-bell"></i> Notifications
+    </button>
+    <button (click)="changeTab('account')" [class.active]="activeTab === 'account'" class="tab-btn">
+      <i class="fas fa-user-cog"></i> Account
+    </button>
+  </div>
+  
+  <!-- Security Tab -->
+  <div *ngIf="activeTab === 'security'" class="tab-content">
+    <h3>Change Password</h3>
+    <form (ngSubmit)="changePassword()" class="settings-form">
+      <div class="form-group">
+        <label>Current Password</label>
+        <div class="password-input-wrapper">
+          <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="passwordData.currentPassword" name="currentPassword" required>
+          <span class="password-toggle-text" (click)="togglePasswordVisibility('current')">
+            {{ showCurrentPassword ? 'Hide' : 'Show' }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <div class="password-input-wrapper">
+          <input [type]="showNewPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="passwordData.newPassword" name="newPassword" required>
+          <span class="password-toggle-text" (click)="togglePasswordVisibility('new')">
+            {{ showNewPassword ? 'Hide' : 'Show' }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <div class="password-input-wrapper">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" required>
+          <span class="password-toggle-text" (click)="togglePasswordVisibility('confirm')">
+            {{ showConfirmPassword ? 'Hide' : 'Show' }}
+          </span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+  </div>
+  
+  <!-- Privacy Tab -->
+  <div *ngIf="activeTab === 'privacy'" class="tab-content">
+    <h3>Privacy Settings</h3>
+    <div class="settings-form">
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="privacySettings.isPublic">
+          <span>Public Profile (Anyone can view your profile)</span>
+        </label>
+        <p class="help-text">If unchecked, only your connections can view your profile</p>
+      </div>
+      <button (click)="updatePrivacy()" class="btn btn-primary">Save Privacy Settings</button>
+    </div>
+  </div>
+  
+  <!-- Notifications Tab -->
+  <div *ngIf="activeTab === 'notifications'" class="tab-content">
+    <h3>Notification Preferences</h3>
+    <div class="settings-form">
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.connectionRequests">
+          <span>Connection Requests</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.connectionAccepted">
+          <span>Connection Accepted</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.newFollowers">
+          <span>New Followers</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.postLikes">
+          <span>Post Likes</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.postComments">
+          <span>Post Comments</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="notificationPreferences.postShares">
+          <span>Post Shares/Reposts</span>
+        </label>
+      </div>
+      <button (click)="updateNotifications()" class="btn btn-primary">Save Notification Preferences</button>
+    </div>
+  </div>
+  
+  <!-- Account Tab -->
+  <div *ngIf="activeTab === 'account'" class="tab-content">
+    <h3>Account Information</h3>
+    <div class="account-info">
+      <p><strong>Username:</strong> {{currentUser?.username}}</p>
+      <p><strong>Email:</strong> {{currentUser?.email}}</p>
+      <p><strong>Account Type:</strong> {{currentUser?.accountType}}</p>
+    </div>
+    
+    <div class="danger-zone">
+      <h4>Danger Zone</h4>
+      <p>Once you delete your account, there is no going back. Please be certain.</p>
+      <button (click)="deleteAccount()" class="btn btn-danger">Delete Account</button>
+    </div>
+  </div>
+</div>

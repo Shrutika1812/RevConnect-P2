@@ -1,0 +1,78 @@
+<div class="my-posts-container">
+  <h2 class="page-title">My Posts</h2>
+  
+  <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+  
+  <div *ngIf="posts.length === 0" class="empty-state">
+    <i class="fas fa-folder-open fa-3x mb-3"></i>
+    <p>You haven't created any posts yet.</p>
+    <a [routerLink]="['/dashboard/create-post']" class="btn btn-primary">Create Your First Post</a>
+  </div>
+  
+  <div class="posts-list">
+    <div *ngFor="let post of posts" class="post-card">
+      <div class="post-header">
+        <div>
+          <span *ngIf="post.isReposted" class="repost-badge"><i class="fas fa-retweet"></i> Reposted</span>
+          <small>{{post.createdAt | date:'short'}}</small>
+        </div>
+        <div class="post-actions-header" *ngIf="!post.isReposted">
+          <button *ngIf="editingPostId !== post.id" (click)="startEdit(post)" class="btn btn-sm btn-outline-primary">Edit</button>
+          <button *ngIf="editingPostId === post.id" (click)="cancelEdit()" class="btn btn-sm btn-outline-secondary">Cancel</button>
+          <button (click)="deletePost(post.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+        </div>
+      </div>
+      
+      <div *ngIf="editingPostId !== post.id" class="post-content">
+        <p>{{post.content}}</p>
+        <div *ngIf="post.hashtags" class="hashtags">
+          <span *ngFor="let tag of post.hashtags.split(',')" class="hashtag">{{tag}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="editingPostId === post.id" class="edit-form">
+        <form (ngSubmit)="saveEdit(post)">
+          <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" [(ngModel)]="editData.content" name="content" rows="4" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Hashtags</label>
+            <input type="text" class="form-control" [(ngModel)]="editData.hashtags" name="hashtags" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+      </div>
+      
+      <div class="post-stats">
+        <span class="stat-item" (click)="toggleLikes(post)">
+          <i class="fas fa-thumbs-up"></i> {{post.likeCount || 0}} likes
+        </span>
+        <span class="stat-item" (click)="toggleComments(post)">
+          <i class="fas fa-comment"></i> {{post.commentCount || 0}} comments
+        </span>
+      </div>
+
+      <div *ngIf="post.showLikes" class="details-section">
+        <h6>Liked by:</h6>
+        <div *ngIf="post.likes && post.likes.length > 0">
+          <div *ngFor="let like of post.likes" class="detail-item">
+            <i class="fas fa-user-circle"></i> {{like.username}}
+          </div>
+        </div>
+        <p *ngIf="!post.likes || post.likes.length === 0" class="text-muted">No likes yet</p>
+      </div>
+
+      <div *ngIf="post.showComments" class="details-section">
+        <h6>Comments:</h6>
+        <div *ngIf="post.comments && post.comments.length > 0">
+          <div *ngFor="let comment of post.comments" class="detail-item">
+            <strong>{{comment.user?.username}}:</strong> {{comment.content}}
+          </div>
+        </div>
+        <p *ngIf="!post.comments || post.comments.length === 0" class="text-muted">No comments yet</p>
+      </div>
+    </div>
+  </div>
+</div>

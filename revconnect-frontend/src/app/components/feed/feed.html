@@ -1,0 +1,61 @@
+<div class="feed-container">
+  <div class="welcome-header">
+    <h1>Welcome to RevConnect</h1>
+    <p>Stay updated with posts from your network</p>
+  </div>
+  
+  <div *ngIf="likeMessage" class="alert alert-success like-toast">{{likeMessage}}</div>
+  
+  <div *ngIf="posts.length === 0" class="empty-state">
+    <i class="fas fa-stream fa-3x mb-3"></i>
+    <p>No posts yet. Start following people or create your first post!</p>
+  </div>
+  
+  <div class="posts-list">
+    <div *ngFor="let post of posts" class="post-card">
+      <div class="post-header">
+        <div class="post-author">
+          <i class="fas fa-user-circle fa-2x"></i>
+          <div class="author-info">
+            <h5>{{post.user?.username || 'User'}}</h5>
+            <small class="bio" *ngIf="post.user?.profile?.bio">{{post.user.profile.bio}}</small>
+          </div>
+        </div>
+        <small class="post-time">{{getTimeAgo(post.createdAt)}}</small>
+      </div>
+      
+      <div class="post-content">
+        <p>{{post.content}}</p>
+        <div *ngIf="post.hashtags" class="hashtags">
+          <span *ngFor="let tag of post.hashtags.split(',')" class="hashtag">{{tag}}</span>
+        </div>
+      </div>
+      
+      <div class="post-actions">
+        <button (click)="toggleLike(post)" class="action-btn" [class.liked]="post.isLiked">
+          <i class="fas fa-thumbs-up"></i> {{post.isLiked ? 'Unlike' : 'Like'}} ({{post.likeCount || 0}})
+        </button>
+        <button (click)="toggleComments(post)" class="action-btn">
+          <i class="fas fa-comment"></i> Comment ({{post.commentCount || 0}})
+        </button>
+        <button (click)="repost(post)" class="action-btn" [class.reposted]="post.isReposted">
+          <i class="fas fa-retweet"></i> 
+          <span *ngIf="!post.isReposted">Repost</span>
+          <span *ngIf="post.isReposted" class="repost-check">Reposted ✓</span>
+        </button>
+      </div>
+      
+      <div *ngIf="post.showComments" class="comments-section">
+        <div class="add-comment">
+          <input type="text" class="form-control" [(ngModel)]="post.newComment" placeholder="Write a comment...">
+          <button (click)="addComment(post)" class="btn btn-sm btn-primary">Post</button>
+        </div>
+        
+        <div *ngFor="let comment of post.comments" class="comment">
+          <p><strong>{{comment.user?.username}}</strong> {{comment.content}}</p>
+          <button *ngIf="isMyComment(comment)" (click)="deleteComment(post, comment)" class="btn btn-sm btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

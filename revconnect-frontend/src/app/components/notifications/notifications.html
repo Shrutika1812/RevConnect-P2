@@ -1,0 +1,34 @@
+<div class="notifications-container">
+  <h2 class="page-title">Notifications</h2>
+  
+  <div *ngIf="notifications.length === 0" class="empty-state">
+    <i class="fas fa-bell fa-3x mb-3"></i>
+    <p>No notifications yet.</p>
+  </div>
+  
+  <div class="notifications-list">
+    <div *ngFor="let notif of notifications" class="notification-card" [class.unread]="!notif.isRead">
+      <div class="notification-icon">
+        <i class="fas" [ngClass]="{
+          'fa-user-plus': notif.type === 'CONNECTION_REQUEST',
+          'fa-check-circle': notif.type === 'CONNECTION_ACCEPTED',
+          'fa-user-check': notif.type === 'NEW_FOLLOWER',
+          'fa-thumbs-up': notif.type === 'POST_LIKED',
+          'fa-comment': notif.type === 'POST_COMMENTED',
+          'fa-retweet': notif.type === 'POST_SHARED',
+          'fa-bell': !notif.type
+        }"></i>
+      </div>
+      <div class="notification-content">
+        <p>{{notif.message}}</p>
+        <small>{{getTimeAgo(notif.createdAt)}}</small>
+      </div>
+      <button *ngIf="!notif.isRead" (click)="markAsRead(notif.id)" class="btn btn-sm btn-primary mark-read-btn">
+        Mark as Read
+      </button>
+      <span *ngIf="notif.isRead" class="read-badge">
+        <i class="fas fa-check-double"></i>
+      </span>
+    </div>
+  </div>
+</div>

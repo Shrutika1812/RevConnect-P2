@@ -1,0 +1,116 @@
+.notifications-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notification-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.3s;
+}
+
+.notification-card.unread {
+  background: #f0f4ff;
+  border-color: #667eea;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f3ff;
+  border-radius: 50%;
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.notification-content small {
+  color: #6c757d;
+}
+
+.mark-read-btn {
+  white-space: nowrap;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.read-badge {
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .notifications-container {
+    max-width: 100%;
+  }
+
+  .notification-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .notification-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .notification-content p {
+    font-size: 0.9rem;
+  }
+
+  .mark-read-btn {
+    padding: 4px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .notification-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mark-read-btn {
+    width: 100%;
+  }
+}

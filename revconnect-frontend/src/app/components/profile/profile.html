@@ -1,0 +1,101 @@
+<div class="profile-container">
+  <h2 class="page-title">Profile</h2>
+  
+  <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+  
+  <div *ngIf="!profile" class="empty-state">
+    <p>Loading profile...</p>
+  </div>
+  
+  <div *ngIf="profile && !profile.id && isEditing" class="profile-card">
+    <h4>Create Your Profile</h4>
+    <form (ngSubmit)="saveProfile()">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" [(ngModel)]="editData.name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Bio</label>
+        <textarea class="form-control" [(ngModel)]="editData.bio" name="bio" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-control" [(ngModel)]="editData.location" name="location">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Website</label>
+        <input type="url" class="form-control" [(ngModel)]="editData.website" name="website">
+      </div>
+      <button type="submit" class="btn btn-primary">Create Profile</button>
+    </form>
+  </div>
+  
+  <div *ngIf="profile && profile.id" class="profile-card">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="fas fa-user-circle fa-5x"></i>
+      </div>
+      <div class="profile-info">
+        <h3>{{profile.name || 'No name set'}}</h3>
+        <p class="email">{{profile.user?.email}}</p>
+        <p class="bio">{{profile.bio || 'No bio yet'}}</p>
+        <div class="profile-details">
+          <p *ngIf="profile.location"><i class="fas fa-map-marker-alt"></i> {{profile.location}}</p>
+          <p *ngIf="profile.website"><i class="fas fa-link"></i> <a [href]="profile.website" target="_blank">{{profile.website}}</a></p>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button (click)="toggleEdit()" class="btn btn-primary">
+          {{isEditing ? 'Cancel' : 'Edit Profile'}}
+        </button>
+        <button (click)="deleteProfile()" class="btn btn-danger">Delete Profile</button>
+      </div>
+    </div>
+    
+    <div *ngIf="isEditing" class="edit-form">
+      <h4>Edit Profile</h4>
+      <form (ngSubmit)="saveProfile()">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="editData.name" name="name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Bio</label>
+          <textarea class="form-control" [(ngModel)]="editData.bio" name="bio" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Location</label>
+          <input type="text" class="form-control" [(ngModel)]="editData.location" name="location">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Website</label>
+          <input type="url" class="form-control" [(ngModel)]="editData.website" name="website">
+        </div>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+      </form>
+    </div>
+    
+    <div class="basic-info">
+      <h4>Basic Information</h4>
+      <table class="table">
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td>{{profile.name || 'Not set'}}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td>{{profile.user?.email}}</td>
+        </tr>
+        <tr>
+          <td><strong>Bio:</strong></td>
+          <td>{{profile.bio || 'Not set'}}</td>
+        </tr>
+        <tr>
+          <td><strong>Location:</strong></td>
+          <td>{{profile.location || 'Not set'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

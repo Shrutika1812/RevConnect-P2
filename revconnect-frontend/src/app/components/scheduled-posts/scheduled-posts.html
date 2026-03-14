@@ -1,0 +1,69 @@
+<div class="scheduled-posts-container">
+  <div class="header">
+    <h2 class="page-title">Scheduled Posts</h2>
+    <button (click)="toggleCreateForm()" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Schedule New Post
+    </button>
+  </div>
+  
+  <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+  
+  <!-- Create Form -->
+  <div *ngIf="showCreateForm" class="create-form">
+    <h3>Schedule a Post</h3>
+    <form (ngSubmit)="schedulePost()">
+      <div class="form-group">
+        <label>Content *</label>
+        <textarea class="form-control" [(ngModel)]="newPost.content" name="content" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Hashtags (comma separated)</label>
+        <input type="text" class="form-control" [(ngModel)]="newPost.hashtags" name="hashtags" placeholder="tech,business,innovation">
+      </div>
+      <div class="datetime-group">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" class="form-control" [(ngModel)]="newPost.scheduledDate" name="scheduledDate" required>
+        </div>
+        <div class="form-group">
+          <label>Time *</label>
+          <input type="time" class="form-control" [(ngModel)]="newPost.scheduledTime" name="scheduledTime" required>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Schedule Post</button>
+        <button type="button" (click)="toggleCreateForm()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Scheduled Posts List -->
+  <div class="posts-list">
+    <div *ngFor="let post of scheduledPosts" class="post-card">
+      <div class="post-header">
+        <span class="status-badge" [ngClass]="getStatusClass(post.status)">
+          {{post.status === 'pending' ? 'Scheduled' : 'Published'}}
+        </span>
+        <span class="scheduled-time">
+          <i class="fas fa-clock"></i> {{post.scheduledDateTime | date:'medium'}}
+        </span>
+      </div>
+      <div class="post-content">
+        <p>{{post.content}}</p>
+        <div *ngIf="post.hashtags" class="hashtags">
+          <span *ngFor="let tag of post.hashtags.split(',')" class="hashtag">{{tag}}</span>
+        </div>
+      </div>
+      <div class="post-actions">
+        <button (click)="deleteScheduledPost(post.id)" class="btn btn-sm btn-danger">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+    <p *ngIf="scheduledPosts.length === 0" class="empty-text">
+      <i class="fas fa-calendar-alt fa-3x"></i>
+      <br>No scheduled posts yet
+    </p>
+  </div>
+</div>

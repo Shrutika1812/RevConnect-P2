@@ -1,0 +1,249 @@
+.feed-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.post-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-info h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.author-info small.bio {
+  display: block;
+  color: #6c757d;
+  margin-top: 2px;
+}
+
+.post-time {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.post-content p {
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+.hashtags {
+  margin-top: 10px;
+}
+
+.hashtag {
+  display: inline-block;
+  background: #e7f3ff;
+  color: #667eea;
+  padding: 4px 10px;
+  border-radius: 15px;
+  margin-right: 8px;
+  font-size: 0.85rem;
+}
+
+.post-actions {
+  display: flex;
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.action-btn:hover {
+  background: #f8f9fa;
+  color: #667eea;
+}
+
+.action-btn.liked {
+  color: #667eea;
+  font-weight: 600;
+  background: #e7f3ff;
+}
+
+.action-btn.reposted {
+  color: #28a745;
+  font-weight: 600;
+  background: #d4edda;
+}
+
+.comments-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.add-comment {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.comment {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.comment strong {
+  color: #333;
+}
+
+.comment p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.like-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+  min-width: 200px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.repost-check {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.welcome-header h1 {
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.welcome-header p {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feed-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .welcome-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .welcome-header p {
+    font-size: 0.9rem;
+  }
+
+  .post-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .post-time {
+    font-size: 0.8rem;
+  }
+
+  .post-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .action-btn {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .like-toast {
+    top: 60px;
+    right: 10px;
+    min-width: 150px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .post-card {
+    padding: 12px;
+  }
+
+  .action-btn {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+  }
+
+  .hashtag {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+}

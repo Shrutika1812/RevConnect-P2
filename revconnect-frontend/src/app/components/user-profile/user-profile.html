@@ -1,0 +1,46 @@
+<div class="profile-container">
+  <h2 class="page-title">User Profile</h2>
+  
+  <div *ngIf="!profile" class="empty-state">
+    <p>Loading profile...</p>
+  </div>
+  
+  <div *ngIf="profile" class="profile-card">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="fas fa-user-circle fa-5x"></i>
+      </div>
+      <div class="profile-info">
+        <h3>{{profile.name || profile.user?.username}}</h3>
+        <p class="email">{{profile.user?.email}}</p>
+        <p class="bio">{{profile.bio || 'No bio yet'}}</p>
+        <div class="profile-details">
+          <p *ngIf="profile.location"><i class="fas fa-map-marker-alt"></i> {{profile.location}}</p>
+          <p *ngIf="profile.website"><i class="fas fa-link"></i> <a [href]="profile.website" target="_blank">{{profile.website}}</a></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="basic-info">
+      <h4>Basic Information</h4>
+      <table class="table">
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td>{{profile.name || 'Not set'}}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td>{{profile.user?.email}}</td>
+        </tr>
+        <tr>
+          <td><strong>Bio:</strong></td>
+          <td>{{profile.bio || 'Not set'}}</td>
+        </tr>
+        <tr>
+          <td><strong>Location:</strong></td>
+          <td>{{profile.location || 'Not set'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

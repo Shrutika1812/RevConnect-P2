@@ -1,0 +1,22 @@
+<div class="create-post-container">
+  <h2 class="page-title">Create Post</h2>
+  
+  <div class="post-form-card">
+    <form (ngSubmit)="createPost()">
+      <div class="mb-3">
+        <label class="form-label">What's on your mind?</label>
+        <textarea class="form-control" [(ngModel)]="postData.content" name="content" rows="5" placeholder="Share your thoughts..." required></textarea>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Hashtags</label>
+        <input type="text" class="form-control" [(ngModel)]="postData.hashtags" name="hashtags" autocomplete="off">
+      </div>
+      
+      <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+      <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+      
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+  </div>
+</div>

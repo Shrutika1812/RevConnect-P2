@@ -1,0 +1,85 @@
+<div class="analytics-container">
+  <h2 class="page-title">Post Analytics</h2>
+  
+  <!-- Summary Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <i class="fas fa-file-alt"></i>
+      <div class="stat-info">
+        <h3>{{totalStats.totalPosts}}</h3>
+        <p>Total Posts</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-thumbs-up"></i>
+      <div class="stat-info">
+        <h3>{{totalStats.totalLikes}}</h3>
+        <p>Total Likes</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-comment"></i>
+      <div class="stat-info">
+        <h3>{{totalStats.totalComments}}</h3>
+        <p>Total Comments</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-retweet"></i>
+      <div class="stat-info">
+        <h3>{{totalStats.totalShares}}</h3>
+        <p>Total Shares</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-chart-line"></i>
+      <div class="stat-info">
+        <h3>{{totalStats.avgEngagement}}%</h3>
+        <p>Avg Engagement</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sort Options -->
+  <div class="controls">
+    <label>Sort by:</label>
+    <select class="form-control" [(ngModel)]="sortBy" (change)="sortPosts()">
+      <option value="date">Date (Newest First)</option>
+      <option value="likes">Most Likes</option>
+      <option value="engagement">Highest Engagement</option>
+    </select>
+  </div>
+  
+  <!-- Posts List -->
+  <div class="posts-list">
+    <div *ngFor="let post of filteredPosts" class="analytics-card">
+      <div class="post-preview">
+        <p class="post-content">{{post.content}}</p>
+        <small class="post-date">{{post.createdAt | date:'short'}}</small>
+      </div>
+      <div class="post-stats">
+        <div class="stat-item">
+          <i class="fas fa-thumbs-up"></i>
+          <span>{{post.likeCount || 0}} Likes</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-comment"></i>
+          <span>{{post.commentCount || 0}} Comments</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-retweet"></i>
+          <span>{{post.repostCount || 0}} Shares</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-eye"></i>
+          <span>{{post.reach}} Reach</span>
+        </div>
+        <div class="stat-item engagement">
+          <i class="fas fa-chart-line"></i>
+          <span>{{post.engagement}}% Engagement</span>
+        </div>
+      </div>
+    </div>
+    <p *ngIf="filteredPosts.length === 0" class="empty-text">No posts yet</p>
+  </div>
+</div>

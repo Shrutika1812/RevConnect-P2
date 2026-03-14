@@ -1,0 +1,151 @@
+<div class="business-profile-container">
+  <h2 class="page-title">Business Profile</h2>
+  
+  <div *ngIf="successMessage" class="alert alert-success">{{successMessage}}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+  
+  <div class="profile-tabs">
+    <button (click)="changeTab('basic')" [class.active]="activeTab === 'basic'" class="tab-btn">
+      <i class="fas fa-info-circle"></i> Basic Info
+    </button>
+    <button (click)="changeTab('contact')" [class.active]="activeTab === 'contact'" class="tab-btn">
+      <i class="fas fa-phone"></i> Contact
+    </button>
+    <button (click)="changeTab('hours')" [class.active]="activeTab === 'hours'" class="tab-btn">
+      <i class="fas fa-clock"></i> Business Hours
+    </button>
+    <button (click)="changeTab('links')" [class.active]="activeTab === 'links'" class="tab-btn">
+      <i class="fas fa-link"></i> Links
+    </button>
+    <button (click)="changeTab('products')" [class.active]="activeTab === 'products'" class="tab-btn">
+      <i class="fas fa-box"></i> Products/Services
+    </button>
+  </div>
+  
+  <!-- Basic Info Tab -->
+  <div *ngIf="activeTab === 'basic'" class="tab-content">
+    <form (ngSubmit)="saveBasicInfo()" class="profile-form">
+      <div class="form-group">
+        <label>Business/Creator Name</label>
+        <input type="text" class="form-control" [(ngModel)]="businessProfile.businessName" name="businessName" required>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select class="form-control" [(ngModel)]="businessProfile.category" name="category">
+          <option value="">Select Category</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Industry</label>
+        <input type="text" class="form-control" [(ngModel)]="businessProfile.industry" name="industry">
+      </div>
+      <div class="form-group">
+        <label>Bio/Description</label>
+        <textarea class="form-control" [(ngModel)]="businessProfile.bio" name="bio" rows="4"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Basic Info</button>
+    </form>
+  </div>
+  
+  <!-- Contact Tab -->
+  <div *ngIf="activeTab === 'contact'" class="tab-content">
+    <form (ngSubmit)="saveContactInfo()" class="profile-form">
+      <div class="form-group">
+        <label>Business Address</label>
+        <textarea class="form-control" [(ngModel)]="businessProfile.businessAddress" name="businessAddress" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" class="form-control" [(ngModel)]="businessProfile.phone" name="phone">
+      </div>
+      <div class="form-group">
+        <label>Business Email</label>
+        <input type="email" class="form-control" [(ngModel)]="businessProfile.businessEmail" name="businessEmail">
+      </div>
+      <div class="form-group">
+        <label>Website</label>
+        <input type="url" class="form-control" [(ngModel)]="businessProfile.website" name="website">
+      </div>
+      <h4>Social Media Links</h4>
+      <div class="form-group">
+        <label>LinkedIn</label>
+        <input type="url" class="form-control" [(ngModel)]="businessProfile.socialLinks.linkedin" name="linkedin">
+      </div>
+      <div class="form-group">
+        <label>Twitter</label>
+        <input type="url" class="form-control" [(ngModel)]="businessProfile.socialLinks.twitter" name="twitter">
+      </div>
+      <div class="form-group">
+        <label>Instagram</label>
+        <input type="url" class="form-control" [(ngModel)]="businessProfile.socialLinks.instagram" name="instagram">
+      </div>
+      <div class="form-group">
+        <label>Facebook</label>
+        <input type="url" class="form-control" [(ngModel)]="businessProfile.socialLinks.facebook" name="facebook">
+      </div>
+      <button type="submit" class="btn btn-primary">Save Contact Info</button>
+    </form>
+  </div>
+  
+  <!-- Business Hours Tab -->
+  <div *ngIf="activeTab === 'hours'" class="tab-content">
+    <form (ngSubmit)="saveBusinessHours()" class="profile-form">
+      <div *ngFor="let day of businessProfile.businessHours" class="hours-row">
+        <div class="day-name">{{day.day}}</div>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="day.closed" [name]="'closed-' + day.day">
+          <span>Closed</span>
+        </label>
+        <div *ngIf="!day.closed" class="time-inputs">
+          <input type="time" class="form-control" [(ngModel)]="day.open" [name]="'open-' + day.day">
+          <span>to</span>
+          <input type="time" class="form-control" [(ngModel)]="day.close" [name]="'close-' + day.day">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Business Hours</button>
+    </form>
+  </div>
+  
+  <!-- Links Tab -->
+  <div *ngIf="activeTab === 'links'" class="tab-content">
+    <h4>External Links (Partnerships, Endorsements)</h4>
+    <div class="add-item-form">
+      <input type="text" class="form-control" [(ngModel)]="newLink.title" placeholder="Link Title">
+      <input type="url" class="form-control" [(ngModel)]="newLink.url" placeholder="URL">
+      <button (click)="addExternalLink()" class="btn btn-primary">Add Link</button>
+    </div>
+    <div class="items-list">
+      <div *ngFor="let link of businessProfile.externalLinks; let i = index" class="item-card">
+        <div class="item-info">
+          <strong>{{link.title}}</strong>
+          <a [href]="link.url" target="_blank">{{link.url}}</a>
+        </div>
+        <button (click)="removeLink(i)" class="btn btn-sm btn-danger">Remove</button>
+      </div>
+      <p *ngIf="businessProfile.externalLinks.length === 0" class="empty-text">No external links added yet</p>
+    </div>
+  </div>
+  
+  <!-- Products/Services Tab -->
+  <div *ngIf="activeTab === 'products'" class="tab-content">
+    <h4>Products/Services Showcase</h4>
+    <div class="add-item-form">
+      <input type="text" class="form-control" [(ngModel)]="newProduct.name" placeholder="Product/Service Name">
+      <textarea class="form-control" [(ngModel)]="newProduct.description" placeholder="Description" rows="2"></textarea>
+      <input type="text" class="form-control" [(ngModel)]="newProduct.price" placeholder="Price (optional)">
+      <button (click)="addProduct()" class="btn btn-primary">Add Product/Service</button>
+    </div>
+    <div class="items-list">
+      <div *ngFor="let product of businessProfile.products; let i = index" class="item-card">
+        <div class="item-info">
+          <strong>{{product.name}}</strong>
+          <p>{{product.description}}</p>
+          <span *ngIf="product.price" class="price">{{product.price}}</span>
+        </div>
+        <button (click)="removeProduct(i)" class="btn btn-sm btn-danger">Remove</button>
+      </div>
+      <p *ngIf="businessProfile.products.length === 0" class="empty-text">No products/services added yet</p>
+    </div>
+  </div>
+</div>
